@@ -19,8 +19,10 @@ app.use(cors());
 app.use(bodyParser.json());
 
 const users = require('./routes/users');
+const products = require('./routes/products');
 
 app.use('/users', users.unprotected)
+app.use('/products', products.unprotected)
 
 app.get('/', (req, res) => {
     res.send('Invalid Endpoint');
