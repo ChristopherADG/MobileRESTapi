@@ -31,7 +31,8 @@ router.route('/add').post((req, res) => {
     let product = new Product({
         name: req.body.name,
         atomic_price: req.body.atomic_price,
-        quantity: req.body.quantity
+        quantity: req.body.quantity,
+        attributes: req.body.attributes
     });
     product.save()
         .then(product => {
@@ -51,6 +52,7 @@ router.route('/update/:id').post((req, res) => {
             product.name = req.body.name;
             product.atomic_price = req.body.atomic_price;
             product.quantity = req.body.quantity;
+            product.attributes = req.body.attributes;
 
             product.save()
                 .then(product => {

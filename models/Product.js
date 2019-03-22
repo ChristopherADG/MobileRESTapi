@@ -14,6 +14,10 @@ let Product = new Schema({
     quantity: {
         type: Number,
         require: true
+    },
+    attributes: {
+        type: [String],
+        require: false
     }
 });
 
