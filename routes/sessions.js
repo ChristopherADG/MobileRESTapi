@@ -30,7 +30,36 @@ router.route('/:id').get((req, res) => {
 // Sign in
 router.route('/signin').post((req, res) => {
     passw = req.body.password
-    console.log(passw);
+    console.log("password " + passw);
+    var query = User.find({}).select({"email": req.body.email, "password_hash": passw});
+
+    query.exec(function(err, user) {
+        if (err) {
+            console.log(err);
+        } else if (typeof user === 'undefined') {
+            res.status(400).send('Failed to create new session. Undefined user');
+        }
+        else if(isSignedIn(user.email)) {
+            res.redirect('/');
+        } else {
+            console.log("*** " + user.email)
+
+            let session = new Session({
+                user_id: user.email,
+                last_action_time: new Date()
+            });
+
+            session.save()
+                .then(session => {
+                    res.status(200).json({ 'session': 'Added successfully ' + session.id });
+                })
+                .catch(err => {
+                    res.status(400).send('Failed to create new session');
+                });
+
+        }
+    });
+/*
     User.find({ email: req.body.email, password_hash: passw}, function (err, user) {
         if (err) {
             console.log(err);
@@ -54,6 +83,7 @@ router.route('/signin').post((req, res) => {
 
         }
     });
+    */
     
 });
 
