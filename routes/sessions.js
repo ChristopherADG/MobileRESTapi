@@ -57,31 +57,6 @@ router.route('/signin').post((req, res) => {
             }
         }
     })
-    /*
-        User.find({ email: req.body.email, password_hash: passw}, function (err, user) {
-            if (err) {
-                console.log(err);
-            } else if(isSignedIn(user.id)) {
-                res.redirect('/');
-            } else {
-                console.log(user.id)
-    
-                let session = new Session({
-                    user_id: user.id,
-                    last_action_time: new Date()
-                });
-    
-                session.save()
-                    .then(session => {
-                        res.status(200).json({ 'session': 'Added successfully ' + session.id });
-                    })
-                    .catch(err => {
-                        res.status(400).send('Failed to create new session');
-                    });
-    
-            }
-        });
-        */
 
 });
 
