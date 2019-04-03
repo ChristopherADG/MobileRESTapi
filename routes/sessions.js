@@ -29,67 +29,65 @@ router.route('/:id').get((req, res) => {
 
 // Sign in
 router.route('/signin').post((req, res) => {
-    passw = req.body.password
-    console.log("password " + passw);
-    var query = User.find({}).select({"email": req.body.email, "password_hash": passw});
+    const email = req.body.email;
+    const password = req.body.password;
 
-    query.exec(function(err, user) {
+    User.findOne({ email: email }, (err, user) => {
         if (err) {
-            console.log(err);
-        } else if (typeof user === 'undefined') {
-            res.status(400).send('Failed to create new session. Undefined user');
+            throw err;
         }
-        else if(isSignedIn(user.email)) {
-            res.redirect('/');
+        if (!user) {
+            res.json({ msg: 'Invalid email or password' });
         } else {
-            console.log("*** " + user.email)
-
-            let session = new Session({
-                user_id: user.email,
-                last_action_time: new Date()
-            });
-
-            session.save()
-                .then(session => {
-                    res.status(200).json({ 'session': 'Added successfully ' + session.id });
-                })
-                .catch(err => {
-                    res.status(400).send('Failed to create new session');
+            if (password == user.password_hash) {
+                let session = new Session({
+                    user_id: user.email,
+                    last_action_time: new Date()
                 });
 
+                session.save()
+                    .then(session => {
+                        res.status(200).json({ 'session': 'Added successfully ' + session.id });
+                    })
+                    .catch(err => {
+                        res.status(400).send('Failed to create new session');
+                    });
+            } else {
+                res.json({ msg: 'Invalid email or password' });
+            }
         }
-    });
-/*
-    User.find({ email: req.body.email, password_hash: passw}, function (err, user) {
-        if (err) {
-            console.log(err);
-        } else if(isSignedIn(user.id)) {
-            res.redirect('/');
-        } else {
-            console.log(user.id)
-
-            let session = new Session({
-                user_id: user.id,
-                last_action_time: new Date()
-            });
-
-            session.save()
-                .then(session => {
-                    res.status(200).json({ 'session': 'Added successfully ' + session.id });
-                })
-                .catch(err => {
-                    res.status(400).send('Failed to create new session');
-                });
-
-        }
-    });
-    */
+    })
+    /*
+        User.find({ email: req.body.email, password_hash: passw}, function (err, user) {
+            if (err) {
+                console.log(err);
+            } else if(isSignedIn(user.id)) {
+                res.redirect('/');
+            } else {
+                console.log(user.id)
     
+                let session = new Session({
+                    user_id: user.id,
+                    last_action_time: new Date()
+                });
+    
+                session.save()
+                    .then(session => {
+                        res.status(200).json({ 'session': 'Added successfully ' + session.id });
+                    })
+                    .catch(err => {
+                        res.status(400).send('Failed to create new session');
+                    });
+    
+            }
+        });
+        */
+
 });
 
 // Middleware is signed in
 function isSignedIn(user_id) {
-    Session.find({user_id: user_id}, (err) => {
+    Session.find({ user_id: user_id }, (err) => {
         if (err) {
             return false
         } else {
@@ -100,7 +98,7 @@ function isSignedIn(user_id) {
 
 //Update Session time
 router.route('/update/:id').post((req, res) => {
-    Session.findById( req.body.id, (err, session) => {
+    Session.findById(req.body.id, (err, session) => {
         if (err) {
             console.log(err);
         } else {
