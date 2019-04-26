@@ -15,8 +15,12 @@ let Product = new Schema({
         type: Number,
         require: true
     },
-    attributes: {
-        type: [String],
+    description: {
+        type: String,
+        require: false
+    },
+    image: {
+        type: String,
         require: false
     }
 });

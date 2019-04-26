@@ -32,7 +32,8 @@ router.route('/add').post((req, res) => {
         name: req.body.name,
         atomic_price: req.body.atomic_price,
         quantity: req.body.quantity,
-        attributes: req.body.attributes
+        description: req.body.description,
+        image: req.body.image
     });
     product.save()
         .then(product => {
@@ -52,7 +53,8 @@ router.route('/update/:id').post((req, res) => {
             product.name = req.body.name;
             product.atomic_price = req.body.atomic_price;
             product.quantity = req.body.quantity;
-            product.attributes = req.body.attributes;
+            product.description = req.body.description;
+            product.image = req.body.image;
 
             product.save()
                 .then(product => {
