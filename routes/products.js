@@ -31,7 +31,6 @@ router.route('/add').post((req, res) => {
     let product = new Product({
         name: req.body.name,
         atomic_price: req.body.atomic_price,
-        quantity: req.body.quantity,
         description: req.body.description,
         image: req.body.image
     });
@@ -52,7 +51,6 @@ router.route('/update/:id').post((req, res) => {
         } else {
             product.name = req.body.name;
             product.atomic_price = req.body.atomic_price;
-            product.quantity = req.body.quantity;
             product.description = req.body.description;
             product.image = req.body.image;
 

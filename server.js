@@ -21,10 +21,12 @@ app.use(bodyParser.json());
 const users = require('./routes/users');
 const products = require('./routes/products');
 const sessions = require('./routes/sessions');
+const cart = require('./routes/cart');
 
 app.use('/users', users.unprotected)
 app.use('/products', products.unprotected)
 app.use('/sessions', sessions.unprotected)
+app.use('/cart', cart.unprotected)
 
 app.get('/', (req, res) => {
     res.send('Invalid Endpoint');

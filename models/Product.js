@@ -11,10 +11,6 @@ let Product = new Schema({
         type: Number,
         require: true
     },
-    quantity: {
-        type: Number,
-        require: true
-    },
     description: {
         type: String,
         require: false

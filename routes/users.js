@@ -16,7 +16,7 @@ router.route('/').get((req, res) => {
 });
 
 //Specific User
-router.route('/:id').get((req, res) => {
+router.route('/find/:id').get((req, res) => {
     User.findById(req.params.id, (err, user) => {
         if (err) {
             console.log(err);
