@@ -7,11 +7,23 @@ let Cart = new Schema({
         type: String,
         require: true
     },
-    item_id: {
+    quantity: {
+        type: String,
+        require: false
+    },
+    name: {
         type: String,
         require: true
     },
-    quantity: {
+    atomic_price: {
+        type: String,
+        require: true
+    },
+    description: {
+        type: String,
+        require: false
+    },
+    image: {
         type: String,
         require: false
     }
